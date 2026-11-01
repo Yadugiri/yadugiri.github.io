@@ -75,6 +75,27 @@ h3{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:21px; margin:0
 .timeline li{position:relative; padding:0 0 16px 18px; font-size:14px; color:var(--soft)}
 .timeline li::before{content:""; position:absolute; left:-6px; top:7px; width:10px; height:10px; border-radius:50%; background:var(--card); border:2px solid var(--accent)}
 .timeline b{display:block; color:var(--ink); font-weight:600; font-size:15px}
+.intro{margin:-6px 0 18px; color:var(--soft); max-width:640px}
+.gallery{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px}
+@media (max-width:860px){ .gallery{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:480px){ .gallery{grid-template-columns:1fr} }
+.tile{all:unset; cursor:pointer; display:block; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; transition:transform .2s ease, box-shadow .2s ease}
+.tile:hover{transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.tile:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.tile img{display:block; width:100%; aspect-ratio:3/2; object-fit:cover; background:#fff}
+.tile .cap{display:block; padding:12px 14px 14px}
+.tile b{display:block; font-weight:600; font-size:15px; line-height:1.35}
+.tile small{color:var(--soft); font-size:13px}
+dialog#viewer{width:min(1200px,96vw); max-height:94vh; padding:0; border:none; border-radius:14px; background:var(--card); color:var(--ink)}
+dialog#viewer::backdrop{background:rgba(10,14,16,.82)}
+.vbar{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:12px 14px; font-size:15px; font-weight:500; border-bottom:1px solid var(--line)}
+.vstage{position:relative; background:#fff; display:flex; align-items:center; justify-content:center}
+.vstage img{display:block; max-width:100%; max-height:78vh; object-fit:contain}
+.vbtn{border:1px solid var(--line); background:var(--card); color:var(--ink); width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:18px; line-height:1; flex:none}
+.vnav{position:absolute; top:50%; transform:translateY(-50%); font-size:24px; opacity:.92}
+#vprev{left:10px} #vnext{right:10px}
+.vcount{padding:8px 14px; font-size:13px; color:var(--soft); text-align:center}
+@media (prefers-reduced-motion:reduce){ .tile{transition:none} .tile:hover{transform:none} }
 footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px solid var(--line); margin-top:32px}
 .theme{position:fixed; top:14px; right:14px; width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center}
 @media (prefers-reduced-motion:reduce){ .card{transition:none} .card:hover{transform:none} }
@@ -206,6 +227,25 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
     </div>
   </section>
 
+  <section class="section" aria-labelledby="arch">
+    <h2 id="arch">Architecture</h2>
+    <p class="intro">A selection of buildings I've worked on, from concept and renders to construction drawings. Tap any project to see more.</p>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <dialog id="viewer" aria-label="Project images">
+    <div class="vbar">
+      <span id="vcap"></span>
+      <button class="vbtn" id="vclose" aria-label="Close">✕</button>
+    </div>
+    <div class="vstage">
+      <button class="vbtn vnav" id="vprev" aria-label="Previous">‹</button>
+      <img id="vimg" alt="">
+      <button class="vbtn vnav" id="vnext" aria-label="Next">›</button>
+    </div>
+    <div class="vcount" id="vcount"></div>
+  </dialog>
+
   <section class="section" aria-labelledby="about">
     <h2 id="about">About</h2>
     <div class="about">
@@ -244,6 +284,53 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
     try{ localStorage.setItem('theme',next); }catch(e){}
   });
   document.getElementById('y').textContent=new Date().getFullYear();
+  // Architecture gallery: [title, place, pages]; images in arch/pNN.jpg (+ -s small)
+  var P=[
+    ['Waterfront hotel and residences','Abu Dhabi',['05','04']],
+    ['Office and retail campus','Dubai',['08','10']],
+    ['Residential community','Sharjah',['13','14']],
+    ['Residential buildings','Sharjah',['18','17','16']],
+    ['Market hall','Al Dhaid, Sharjah',['21','20']],
+    ['Software development campus','Kolkata',['24']],
+    ['Campus entrance and metro walkway','Bangalore',['27']],
+    ['Apartment building','Bangalore',['30']],
+    ['Student canteen','Tumkur',['32','33']],
+    ['Science centre (competition)','Bangalore',['34','35']],
+    ['Residence','Karnataka',['36']],
+    ['Technical office building','Kakinada',['39']],
+    ['Resort','Bidadi',['42']]
+  ];
+  var g=document.getElementById('gallery'), dlg=document.getElementById('viewer'),
+      vimg=document.getElementById('vimg'), vcap=document.getElementById('vcap'), vcount=document.getElementById('vcount'),
+      cur=null, at=0;
+  P.forEach(function(p,i){
+    var b=document.createElement('button'); b.className='tile'; b.type='button';
+    b.setAttribute('aria-label',p[0]+', '+p[1]+': view '+p[2].length+(p[2].length>1?' images':' image'));
+    b.innerHTML='<img loading="lazy" alt="" src="arch/p'+p[2][0]+'-s.jpg"><span class="cap"><b></b><small></small></span>';
+    b.querySelector('b').textContent=p[0];
+    b.querySelector('small').textContent=p[1]+(p[2].length>1?' · '+p[2].length+' images':'');
+    b.addEventListener('click',function(){ open(i,0); });
+    g.appendChild(b);
+  });
+  function show(){
+    var p=P[cur]; vimg.src='arch/p'+p[2][at]+'.jpg'; vimg.alt=p[0]+', '+p[1];
+    vcap.textContent=p[0]+' · '+p[1];
+    vcount.textContent=p[2].length>1?(at+1)+' of '+p[2].length:'';
+    var many=p[2].length>1;
+    document.getElementById('vprev').style.display=many?'':'none';
+    document.getElementById('vnext').style.display=many?'':'none';
+  }
+  function open(i,j){ cur=i; at=j; show(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open',''); }
+  function step(d){ var n=P[cur][2].length; at=(at+d+n)%n; show(); }
+  document.getElementById('vprev').onclick=function(){ step(-1); };
+  document.getElementById('vnext').onclick=function(){ step(1); };
+  document.getElementById('vclose').onclick=function(){ dlg.close(); };
+  dlg.addEventListener('click',function(e){ if(e.target===dlg) dlg.close(); });
+  dlg.addEventListener('keydown',function(e){ if(e.key==='ArrowRight') step(1); if(e.key==='ArrowLeft') step(-1); });
+  var sx=null;
+  vimg.addEventListener('touchstart',function(e){ sx=e.touches[0].clientX; },{passive:true});
+  vimg.addEventListener('touchend',function(e){ if(sx===null) return; var dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40) step(dx<0?1:-1); sx=null; });
+
   // the address is put together here, not written in the page, so simple spam scrapers miss it
   var m=document.getElementById('mail'), a=['yadugiri.s','gmail.com'].join('@');
   m.href='mailto:'+a+'?subject='+encodeURIComponent('Hello from your portfolio');
