@@ -85,12 +85,21 @@ h3{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:21px; margin:0
 .tile img{display:block; width:100%; aspect-ratio:3/2; object-fit:cover; background:#fff}
 .tile .cap{display:block; padding:12px 14px 14px}
 .tile b{display:block; font-weight:600; font-size:15px; line-height:1.35}
-.tile small{color:var(--soft); font-size:13px}
+.tile small{display:block; color:var(--soft); font-size:13px}
+.tile .fig{margin-top:6px; color:var(--accent); font-size:12.5px}
+.vinfo{padding:4px 18px 18px; font-size:14px; color:var(--soft)}
+.vinfo .vtype{margin:0 0 6px; color:var(--ink); font-weight:600}
+.vinfo ul{margin:0; padding-left:18px; columns:2; column-gap:28px}
+@media (max-width:640px){ .vinfo ul{columns:1} }
+.vinfo li{margin:2px 0; break-inside:avoid}
+.vinfo .vrole{margin:10px 0 0}
+.vinfo .vrole b{color:var(--ink); font-weight:600}
 dialog#viewer{width:min(1200px,96vw); max-height:94vh; padding:0; border:none; border-radius:14px; background:var(--card); color:var(--ink)}
 dialog#viewer::backdrop{background:rgba(10,14,16,.82)}
 .vbar{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:12px 14px; font-size:15px; font-weight:500; border-bottom:1px solid var(--line)}
 .vstage{position:relative; background:#fff; display:flex; align-items:center; justify-content:center}
-.vstage img{display:block; max-width:100%; max-height:78vh; object-fit:contain}
+.vstage img{display:block; max-width:100%; max-height:64vh; object-fit:contain}
+dialog#viewer{overflow:auto}
 .vbtn{border:1px solid var(--line); background:var(--card); color:var(--ink); width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:18px; line-height:1; flex:none}
 .vnav{position:absolute; top:50%; transform:translateY(-50%); font-size:24px; opacity:.92}
 #vprev{left:10px} #vnext{right:10px}
@@ -244,6 +253,7 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
       <button class="vbtn vnav" id="vnext" aria-label="Next">›</button>
     </div>
     <div class="vcount" id="vcount"></div>
+    <div class="vinfo" id="vinfo"></div>
   </dialog>
 
   <section class="section" aria-labelledby="about">
@@ -285,43 +295,78 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
   });
   document.getElementById('y').textContent=new Date().getFullYear();
   // Architecture gallery: [title, place, pages]; images in arch/pNN.jpg (+ -s small)
+  // [name, place, type, key figure (tile), [figures], my part, pages] - from the portfolio PDF
   var P=[
-    ['Waterfront hotel and residences','Abu Dhabi',['05','04']],
-    ['Office and retail campus','Dubai',['08','10']],
-    ['Residential community','Sharjah',['13','14']],
-    ['Residential buildings','Sharjah',['18','17','16']],
-    ['Market hall','Al Dhaid, Sharjah',['21','20']],
-    ['Software development campus','Kolkata',['24']],
-    ['Campus entrance and metro walkway','Bangalore',['27']],
-    ['Apartment building','Bangalore',['30']],
-    ['Student canteen','Tumkur',['32','33']],
-    ['Science centre (competition)','Bangalore',['34','35']],
-    ['Residence','Karnataka',['36']],
-    ['Technical office building','Kakinada',['39']],
-    ['Resort','Bidadi',['42']]
+    ['Bristol','Lulu Island, Abu Dhabi','Hotel and branded apartments','53,815 m² built-up',
+      ['Plot 41,341 m²','Built-up 53,815 m² · GFA 39,505 m²','127 branded apartments + 134 hotel keys','277 parking spaces','Spa, gym, kids club, restaurants'],
+      'Concept plans and the concept report, as Senior Architect, with a team of two.',['05','04']],
+    ['Tecom Phase 4','Dubai','Office and retail campus','19,510 m² site',
+      ['Site 19,510 m²','G+6 office and retail building','G+1 commercial building','Central plaza and walkable streets'],
+      'Revit model and coordination with the services engineers.',['08','10']],
+    ['Uptown Al Zahia','Muwaileh, Sharjah','Residential community','1,000,000 m² community',
+      ['Community over 1,000,000 m²','Studios to 3-bedroom homes, 58 to 220 m²','BREEAM Communities interim certificate','Pools, retail, dining, fitness'],
+      'Revit models and services coordination, as Design Architect, with a team of four.',['13','14']],
+    ['Tilal City','Emirates Road, Sharjah','Residential buildings','25 million ft² development',
+      ['Development 25 million ft²','Residential plots 950 m² and 1,325 m²','48% parks, schools and community space'],
+      'Revit models and authority approval drawings, including fire safety.',['18','17','16']],
+    ['Al Dhaid Market','Al Dhaid, Sharjah','Fresh produce, meat and fish market','139,171 ft² built-up',
+      ['Built-up 139,171 ft²','Fish market, meat vendors, kitchen, shops','For the Sharjah government planning department'],
+      'Revit models, construction drawings and shop drawings for the decorative elements.',['21','20']],
+    ['Software Development Block','New Town, Kolkata','Office campus','130,630 ft² built-up',
+      ['Built-up 130,630 ft² · G+5','Seats 2,400 people','First 5 acres of a 50-acre campus','Aiming for the top LEED green rating'],
+      'Led design coordination across architecture, interiors, services and landscape; tender drawings and cost control.',['24']],
+    ['Campus Entrance and Security Building','Electronic City, Bangalore','Entrance building and metro walkway','19,000 ft² built-up',
+      ['Built-up 19,000 ft²','Main entrance to a 30-acre campus','Turnstiles, security and command centre','Covered walkway to the metro station'],
+      'Project lead for architecture and interiors, from concept to handover, including approvals.',['27']],
+    ['Jivin Green','Bangalore','Apartment building','36 apartments',
+      ['Site 19,628 ft²','36 apartments, 2 and 3 bedrooms','G+6, with parking and party hall'],
+      'Concept, technical, tender and approval drawings.',['30']],
+    ['Student Canteen','Tumkur','University canteen and recreation','12,175 ft² built-up',
+      ['Built-up 12,175 ft²','Dining for 100','Badminton courts, indoor games, gym'],
+      'Concept to tender and approval drawings.',['32','33']],
+    ['Karnataka Science Centre','Bangalore','Competition entry','1,500 m² built-up',
+      ['Built-up 1,500 m² · G+1','Two interlocking cubes for daylight and shade','Rainwater harvesting and solar panels'],
+      'Concept design and technical drawings.',['34','35']],
+    ['Residence','Karnataka','Private house','1,800 ft² built-up',
+      ['Built-up 1,800 ft²','Four bedrooms, parking and landscape'],
+      'Concept design and working drawings.',['36']],
+    ['Coromandel Technical Building','Kakinada, Andhra Pradesh','Engineering office at a cement plant','3,273 ft² built-up',
+      ['Built-up 3,273 ft²','Offices, meeting and conference rooms'],
+      'Working and detail drawings, 3D model and renders.',['39']],
+    ['Resort','Bidadi, Karnataka','Resort with spa, clubhouse and suites','23,500 m² built-up',
+      ['Built-up 23,500 m²','Rooms with and without spa','Clubhouse, restaurant, water recreation'],
+      'My first project, as an intern, and later my thesis: design and 3D model.',['42']]
   ];
   var g=document.getElementById('gallery'), dlg=document.getElementById('viewer'),
       vimg=document.getElementById('vimg'), vcap=document.getElementById('vcap'), vcount=document.getElementById('vcount'),
       cur=null, at=0;
   P.forEach(function(p,i){
     var b=document.createElement('button'); b.className='tile'; b.type='button';
-    b.setAttribute('aria-label',p[0]+', '+p[1]+': view '+p[2].length+(p[2].length>1?' images':' image'));
-    b.innerHTML='<img loading="lazy" alt="" src="arch/p'+p[2][0]+'-s.jpg"><span class="cap"><b></b><small></small></span>';
+    var pg=p[6];
+    b.setAttribute('aria-label',p[0]+', '+p[1]+': view '+pg.length+(pg.length>1?' images':' image'));
+    b.innerHTML='<img loading="lazy" alt="" src="arch/p'+pg[0]+'-s.jpg"><span class="cap"><b></b><small class="loc"></small><small class="fig"></small></span>';
     b.querySelector('b').textContent=p[0];
-    b.querySelector('small').textContent=p[1]+(p[2].length>1?' · '+p[2].length+' images':'');
+    b.querySelector('.loc').textContent=p[1];
+    b.querySelector('.fig').textContent=p[2]+' · '+p[3];
     b.addEventListener('click',function(){ open(i,0); });
     g.appendChild(b);
   });
   function show(){
-    var p=P[cur]; vimg.src='arch/p'+p[2][at]+'.jpg'; vimg.alt=p[0]+', '+p[1];
+    var p=P[cur], pg=p[6]; vimg.src='arch/p'+pg[at]+'.jpg'; vimg.alt=p[0]+', '+p[1];
     vcap.textContent=p[0]+' · '+p[1];
-    vcount.textContent=p[2].length>1?(at+1)+' of '+p[2].length:'';
-    var many=p[2].length>1;
+    vcount.textContent=pg.length>1?(at+1)+' of '+pg.length:'';
+    var info=document.getElementById('vinfo'); info.innerHTML='';
+    var h=document.createElement('p'); h.className='vtype'; h.textContent=p[2]; info.appendChild(h);
+    var ul=document.createElement('ul');
+    p[4].forEach(function(f){ var li=document.createElement('li'); li.textContent=f; ul.appendChild(li); });
+    info.appendChild(ul);
+    var r=document.createElement('p'); r.className='vrole'; r.innerHTML='<b>My part:</b> '; r.appendChild(document.createTextNode(p[5])); info.appendChild(r);
+    var many=pg.length>1;
     document.getElementById('vprev').style.display=many?'':'none';
     document.getElementById('vnext').style.display=many?'':'none';
   }
   function open(i,j){ cur=i; at=j; show(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open',''); }
-  function step(d){ var n=P[cur][2].length; at=(at+d+n)%n; show(); }
+  function step(d){ var n=P[cur][6].length; at=(at+d+n)%n; show(); }
   document.getElementById('vprev').onclick=function(){ step(-1); };
   document.getElementById('vnext').onclick=function(){ step(1); };
   document.getElementById('vclose').onclick=function(){ dlg.close(); };
