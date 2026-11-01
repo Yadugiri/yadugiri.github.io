@@ -77,7 +77,16 @@ h3{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:21px; margin:0
 .timeline b{display:block; color:var(--ink); font-weight:600; font-size:15px}
 .tl-head{margin:0 0 14px; color:var(--soft); font-size:15px}
 .tl-head b{color:var(--ink); font-weight:600}
-.intro{margin:-6px 0 18px; color:var(--soft); max-width:640px}
+.intro{margin:4px 0 18px; color:var(--soft); max-width:640px}
+.fold{all:unset; box-sizing:border-box; cursor:pointer; width:100%; display:flex; justify-content:space-between; align-items:center; gap:12px;
+  padding:16px 20px; background:var(--card); border:1px solid var(--line); border-radius:14px; font:inherit; transition:border-color .2s ease}
+.fold:hover{border-color:var(--accent)}
+.fold:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.fold-meta{display:inline-flex; align-items:center; gap:10px; font-family:Inter,system-ui,sans-serif; font-size:14px; font-weight:500; color:var(--soft)}
+.chev{transition:transform .2s ease; color:var(--accent)}
+.fold[aria-expanded="true"] .chev{transform:rotate(180deg)}
+#archbody{margin-top:16px}
+@media (prefers-reduced-motion:reduce){ .chev,.fold{transition:none} }
 .gallery{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px}
 @media (max-width:860px){ .gallery{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:480px){ .gallery{grid-template-columns:1fr} }
@@ -241,9 +250,16 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
   </section>
 
   <section class="section" aria-labelledby="arch">
-    <h2 id="arch">Architecture</h2>
-    <p class="intro">A selection of buildings I've worked on, from concept and renders to construction drawings. Tap any project to see more.</p>
-    <div class="gallery" id="gallery"></div>
+    <h2 id="arch">
+      <button class="fold" id="archbtn" type="button" aria-expanded="false" aria-controls="archbody">
+        <span>Architecture</span>
+        <span class="fold-meta"><span id="archcount">13 projects</span> <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+    </h2>
+    <div id="archbody" hidden>
+      <p class="intro">A selection of buildings I've worked on, from concept and renders to construction drawings. Tap any project to see more.</p>
+      <div class="gallery" id="gallery"></div>
+    </div>
   </section>
 
   <div id="viewer" role="region" aria-label="Project details" hidden>
@@ -356,6 +372,15 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
     g.appendChild(b);
   });
   var tiles=[].slice.call(g.querySelectorAll('.tile'));
+  // the whole section opens from its heading (closed at first)
+  var abtn=document.getElementById('archbtn'), abody=document.getElementById('archbody');
+  document.getElementById('archcount').textContent=P.length+' projects';
+  abtn.addEventListener('click',function(){
+    var open=abtn.getAttribute('aria-expanded')!=='true';
+    abtn.setAttribute('aria-expanded',String(open));
+    abody.hidden=!open;
+    if(!open && !dlg.hidden) close();
+  });
   function show(){
     var p=P[cur], pg=p[6]; vimg.src='arch/p'+pg[at]+'.jpg'; vimg.alt=p[0]+', '+p[1];
     vcap.textContent=p[0]+' · '+p[1];
