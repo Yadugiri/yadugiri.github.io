@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yadugiri Srinivas</title>
+<meta name="description" content="Things I make: tools that turn sketches and ideas into drawings, images and working apps.">
+<meta property="og:title" content="Yadugiri Srinivas">
+<meta property="og:description" content="Tools that turn sketches and ideas into drawings, images and working apps.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f2a2e'/%3E%3Cpath d='M9 23V9h14' stroke='%23e9b872' stroke-width='2.5' fill='none'/%3E%3Ccircle cx='21' cy='21' r='3' fill='%23e9b872'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f3ec; --card:#fffdf8; --ink:#1f2a2e; --soft:#5b676b; --line:#ddd6c8;
+  --grid:rgba(31,42,46,.045); --accent:#b5642b; --accent-soft:#f3e2d1; --ok:#2f7d5b;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141a1c; --card:#1b2326; --ink:#ece7dc; --soft:#a3aca9; --line:#2d383b;
+    --grid:rgba(236,231,220,.035); --accent:#e9b872; --accent-soft:#2c2a22; --ok:#6cc59b;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141a1c; --card:#1b2326; --ink:#ece7dc; --soft:#a3aca9; --line:#2d383b;
+  --grid:rgba(236,231,220,.035); --accent:#e9b872; --accent-soft:#2c2a22; --ok:#6cc59b;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.wrap{max-width:1040px; margin:0 auto; padding:0 16px}
+a{color:inherit}
+header{padding:72px 0 40px}
+.mark{display:flex; align-items:center; gap:10px; color:var(--soft); font-size:14px; letter-spacing:.04em}
+.mark svg{flex:none}
+h1{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:clamp(34px,6vw,54px); line-height:1.1; margin:18px 0 14px; letter-spacing:-.01em}
+.lede{font-size:clamp(17px,2.2vw,20px); color:var(--soft); max-width:620px; margin:0}
+.lede em{font-style:normal; color:var(--ink)}
+.sub{margin-top:14px; font-size:14px; color:var(--soft)}
+h2{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:22px; margin:0 0 18px}
+.section{padding:28px 0}
+.grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px}
+@media (max-width:720px){ .grid{grid-template-columns:1fr} header{padding:48px 0 28px} }
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  display:flex; flex-direction:column; transition:transform .2s ease, box-shadow .2s ease;
+}
+.card:hover{transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.art{height:150px; background:var(--accent-soft); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:center}
+.art svg{width:100%; height:100%}
+.body{padding:20px 22px 22px; display:flex; flex-direction:column; flex:1}
+.top{display:flex; justify-content:space-between; align-items:baseline; gap:12px}
+h3{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:21px; margin:0}
+.tag{font-size:12px; color:var(--soft); white-space:nowrap}
+.status{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; color:var(--ok); white-space:nowrap}
+.status::before{content:""; width:7px; height:7px; border-radius:50%; background:currentColor}
+.status.soon{color:var(--soft)}
+.card p{margin:10px 0 0; color:var(--soft); font-size:15px}
+.card ul{margin:12px 0 0; padding-left:18px; color:var(--soft); font-size:14px}
+.card li{margin:2px 0}
+.actions{margin-top:auto; padding-top:18px; display:flex; flex-wrap:wrap; gap:10px; align-items:center}
+.btn{display:inline-block; padding:9px 16px; border-radius:999px; background:var(--ink); color:var(--paper); text-decoration:none; font-size:14px; font-weight:500}
+.btn:hover{background:var(--accent); color:#fff}
+.note{font-size:13px; color:var(--soft)}
+.about{display:grid; grid-template-columns:1.2fr 1fr; gap:28px; align-items:start}
+@media (max-width:720px){ .about{grid-template-columns:1fr} }
+.about p{margin:0 0 12px; color:var(--soft)}
+.timeline{list-style:none; margin:0; padding:0; border-left:2px solid var(--line)}
+.timeline li{position:relative; padding:0 0 16px 18px; font-size:14px; color:var(--soft)}
+.timeline li::before{content:""; position:absolute; left:-6px; top:7px; width:10px; height:10px; border-radius:50%; background:var(--card); border:2px solid var(--accent)}
+.timeline b{display:block; color:var(--ink); font-weight:600; font-size:15px}
+footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px solid var(--line); margin-top:32px}
+.theme{position:fixed; top:14px; right:14px; width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center}
+@media (prefers-reduced-motion:reduce){ .card{transition:none} .card:hover{transform:none} }
+</style>
+</head>
+<body>
+<button class="theme" id="theme" aria-label="Switch light or dark">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+</button>
+
+<div class="wrap">
+  <header>
+    <div class="mark">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 25V7h18" stroke="currentColor" stroke-width="2.5" fill="none"/><circle cx="22" cy="22" r="3.5" fill="var(--accent)"/></svg>
+      Bangalore, India
+    </div>
+    <h1>Yadugiri Srinivas</h1>
+    <p class="lede">I make tools that take a rough idea, like a pencil sketch, a few lines of text or a video clip, and turn it into <em>something you can see and use</em>.</p>
+    <p class="sub">An architect by profession. These are things I've built along the way.</p>
+  </header>
+
+  <section class="section" aria-labelledby="work">
+    <h2 id="work">Projects</h2>
+    <div class="grid">
+
+      <article class="card">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice">
+            <g fill="none" stroke="var(--soft)" stroke-width="2" stroke-linecap="round" stroke-dasharray="5 4" opacity=".8">
+              <path d="M40 40 L150 38 L152 112 L42 114 Z"/><path d="M95 39 L97 113"/><path d="M42 78 L96 76"/>
+            </g>
+            <path d="M175 75h40" stroke="var(--accent)" stroke-width="2.5"/><path d="M208 68l9 7-9 7" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+            <g fill="none" stroke="var(--ink)" stroke-width="2.5">
+              <path d="M245 55l55-22 70 22-55 22z" fill="var(--card)"/>
+              <path d="M245 55v50l70 22V77z" fill="var(--card)"/><path d="M315 77v50l55-22V55z" fill="var(--card)"/>
+              <path d="M268 72v22M290 79v22" stroke="var(--accent)"/>
+            </g>
+          </svg>
+        </div>
+        <div class="body">
+          <div class="top"><h3>Prārūpa</h3><span class="status">Live</span></div>
+          <p>Photograph a hand-drawn floor plan and get a checked plan back. Once you approve it, you get a full set of concept and technical drawings, a 3D model you can walk around, pictures and a short video.</p>
+          <ul>
+            <li>Room sizes checked against the building code, offered as suggestions</li>
+            <li>One question at a time, answered with a tap</li>
+            <li>Approve the plan before anything is built</li>
+          </ul>
+          <div class="actions">
+            <a class="btn" href="https://prarupa.vercel.app" target="_blank" rel="noopener">Open Prārūpa</a>
+            <span class="note">Needs an access link: <a href="#contact">ask me for one</a></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice">
+            <rect x="50" y="28" width="130" height="94" rx="6" fill="var(--card)" stroke="var(--line)"/>
+            <path d="M68 104l30-38 22 24 16-14 28 28z" fill="none" stroke="var(--soft)" stroke-width="2"/>
+            <circle cx="150" cy="52" r="8" fill="none" stroke="var(--soft)" stroke-width="2"/>
+            <path d="M195 75h30" stroke="var(--accent)" stroke-width="2.5"/><path d="M218 68l9 7-9 7" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+            <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2c38b"/><stop offset="1" stop-color="#c8734a"/></linearGradient></defs>
+            <rect x="240" y="28" width="130" height="94" rx="6" fill="url(#sky)"/>
+            <path d="M240 122V100l38-44 26 30 18-16 48 52z" fill="#1f2a2e" opacity=".85"/>
+            <circle cx="340" cy="52" r="9" fill="#fff4dc"/>
+          </svg>
+        </div>
+        <div class="body">
+          <div class="top"><h3>NeuralSketch</h3><span class="status">Live</span></div>
+          <p>A drawing board that turns a sketch or a photo into a realistic design image. Draw with perspective guides, pick materials, and get ideas when you're stuck.</p>
+          <ul>
+            <li>One- and two-point perspective guides</li>
+            <li>Saved prompts and a history of every result</li>
+            <li>Download the image along with the description used</li>
+          </ul>
+          <div class="actions">
+            <a class="btn" href="https://neuralsketch.vercel.app" target="_blank" rel="noopener">Open NeuralSketch</a>
+            <span class="note">Needs an access link: <a href="#contact">ask me for one</a></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice">
+            <g fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round">
+              <path d="M150 35l-28 14 10 26 14-6v52h68V69l14 6 10-26-28-14c-6 10-16 15-30 15s-24-5-30-15z" fill="var(--card)"/>
+            </g>
+            <path d="M152 70 C170 90 200 90 222 70" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="4 4"/>
+            <g transform="translate(270 40)">
+              <circle cx="20" cy="18" r="14" fill="var(--card)" stroke="var(--soft)" stroke-width="2"/>
+              <path d="M-4 70c2-20 12-30 24-30s22 10 24 30" fill="var(--card)" stroke="var(--soft)" stroke-width="2"/>
+              <path d="M58 10l30 0M58 24h22M58 38h28" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <div class="body">
+          <div class="top"><h3>Tailor Connect</h3><span class="status soon">Coming soon</span></div>
+          <p>A place to find a skilled tailor nearby for custom clothes and alterations. Tailors set up a profile with their services, prices and location; customers browse and get in touch.</p>
+          <ul>
+            <li>Separate sign-ups for tailors and customers</li>
+            <li>In English, Hindi, Kannada, Malayalam, Marathi, Tamil and Telugu</li>
+          </ul>
+          <div class="actions"><span class="note">Opening soon at stitchforme.com</span></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice">
+            <rect x="50" y="35" width="140" height="80" rx="8" fill="var(--card)" stroke="var(--line)"/>
+            <path d="M110 58v34l28-17z" fill="var(--accent)"/>
+            <g stroke="var(--ink)" stroke-width="3" stroke-linecap="round">
+              <path d="M225 70v10M240 58v34M255 48v54M270 62v26M285 52v46M300 66v18M315 56v38M330 64v22M345 72v6"/>
+            </g>
+          </svg>
+        </div>
+        <div class="body">
+          <div class="top"><h3>Ekphrasis</h3><span class="status soon">Demo coming soon</span></div>
+          <p>Give it a video and it watches it, writes a script, records a voice-over in the style you choose, and puts the two together, ready to post.</p>
+          <ul>
+            <li>Styles from calm to energetic, tutorial to storytelling</li>
+            <li>Run it end to end, or one step at a time</li>
+          </ul>
+          <div class="actions"><span class="note">A short demo video will be here soon</span></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="about">
+    <h2 id="about">About</h2>
+    <div class="about">
+      <div>
+        <p>My day job is designing buildings: homes, schools, hospitals, shopping centres and mixed-use projects in India and the Gulf, from first sketch to construction drawings.</p>
+        <p>That work is full of slow, repetitive steps between an idea and something people can look at. Most of what's on this page started as an attempt to make one of those steps quicker.</p>
+        <p>Bachelor of Architecture, UVCE Bangalore. Outside work, I paint and make music.</p>
+      </div>
+      <ul class="timeline">
+        <li><b>Architect</b>Khatib &amp; Alami · 2018 onwards</li>
+        <li><b>Architect, then Senior Architect</b>Basanth Consultants · 2014 to 2018</li>
+        <li><b>Junior Architect, then Architect</b>2013 to 2014</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="contact">
+    <h2 id="contact">Get in touch</h2>
+    <p class="lede" style="font-size:17px">For an access link to try a project, or just to say hello.</p>
+    <div class="actions" style="padding-top:16px">
+      <a class="btn" id="mail" href="#contact">Email me</a>
+    </div>
+  </section>
+
+  <footer>© <span id="y">2026</span> Yadugiri Srinivas</footer>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('theme');
+  try{ var t=localStorage.getItem('theme'); if(t) root.setAttribute('data-theme',t); }catch(e){}
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var next=cur==='dark'?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{ localStorage.setItem('theme',next); }catch(e){}
+  });
+  document.getElementById('y').textContent=new Date().getFullYear();
+  // the address is put together here, not written in the page, so simple spam scrapers miss it
+  var m=document.getElementById('mail'), a=['yadugiri.s','gmail.com'].join('@');
+  m.href='mailto:'+a+'?subject='+encodeURIComponent('Hello from your portfolio');
+  m.title=a;
+})();
+</script>
+</body>
+</html>
