@@ -96,12 +96,14 @@ h3{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:21px; margin:0
 .vinfo li{margin:2px 0; break-inside:avoid}
 .vinfo .vrole{margin:10px 0 0}
 .vinfo .vrole b{color:var(--ink); font-weight:600}
-dialog#viewer{width:min(1200px,96vw); max-height:94vh; padding:0; border:none; border-radius:14px; background:var(--card); color:var(--ink)}
-dialog#viewer::backdrop{background:rgba(10,14,16,.82)}
+#viewer{grid-column:1 / -1; background:var(--card); color:var(--ink); border:1px solid var(--accent); border-radius:14px; overflow:hidden; animation:open .25s ease}
+#viewer[hidden]{display:none}
+@keyframes open{from{opacity:0; transform:translateY(-6px)} to{opacity:1; transform:none}}
+.tile[aria-expanded="true"]{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent)}
 .vbar{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:12px 14px; font-size:15px; font-weight:500; border-bottom:1px solid var(--line)}
 .vstage{position:relative; background:#fff; display:flex; align-items:center; justify-content:center}
-.vstage img{display:block; max-width:100%; max-height:64vh; object-fit:contain}
-dialog#viewer{overflow:auto}
+.vstage img{display:block; max-width:100%; max-height:70vh; object-fit:contain}
+@media (prefers-reduced-motion:reduce){ #viewer{animation:none} }
 .vbtn{border:1px solid var(--line); background:var(--card); color:var(--ink); width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:18px; line-height:1; flex:none}
 .vnav{position:absolute; top:50%; transform:translateY(-50%); font-size:24px; opacity:.92}
 #vprev{left:10px} #vnext{right:10px}
@@ -244,7 +246,7 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
     <div class="gallery" id="gallery"></div>
   </section>
 
-  <dialog id="viewer" aria-label="Project images">
+  <div id="viewer" role="region" aria-label="Project details" hidden>
     <div class="vbar">
       <span id="vcap"></span>
       <button class="vbtn" id="vclose" aria-label="Close">✕</button>
@@ -256,7 +258,7 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
     </div>
     <div class="vcount" id="vcount"></div>
     <div class="vinfo" id="vinfo"></div>
-  </dialog>
+  </div>
 
   <section class="section" aria-labelledby="about">
     <h2 id="about">About</h2>
@@ -349,9 +351,11 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
     b.querySelector('b').textContent=p[0];
     b.querySelector('.loc').textContent=p[1];
     b.querySelector('.fig').textContent=p[2]+' · '+p[3];
-    b.addEventListener('click',function(){ open(i,0); });
+    b.setAttribute('aria-expanded','false'); b.setAttribute('aria-controls','viewer');
+    b.addEventListener('click',function(){ if(cur===i && !dlg.hidden) close(); else open(i,0); });
     g.appendChild(b);
   });
+  var tiles=[].slice.call(g.querySelectorAll('.tile'));
   function show(){
     var p=P[cur], pg=p[6]; vimg.src='arch/p'+pg[at]+'.jpg'; vimg.alt=p[0]+', '+p[1];
     vcap.textContent=p[0]+' · '+p[1];
@@ -366,13 +370,31 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
     document.getElementById('vprev').style.display=many?'':'none';
     document.getElementById('vnext').style.display=many?'':'none';
   }
-  function open(i,j){ cur=i; at=j; show(); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open',''); }
+  // the panel opens full width right under the row of the tapped tile
+  function place(){
+    if(cur===null) return;
+    var top=tiles[cur].offsetTop, last=tiles[cur];
+    tiles.forEach(function(t){ if(t.offsetTop===top) last=t; });
+    if(last.nextSibling!==dlg) g.insertBefore(dlg, last.nextSibling);
+  }
+  function open(i,j){
+    if(cur!==null) tiles[cur].setAttribute('aria-expanded','false');
+    cur=i; at=j; show();
+    dlg.hidden=true; place(); dlg.hidden=false;
+    tiles[i].setAttribute('aria-expanded','true');
+    dlg.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth', block:'nearest'});
+  }
+  function close(){
+    dlg.hidden=true;
+    if(cur!==null){ tiles[cur].setAttribute('aria-expanded','false'); tiles[cur].focus(); }
+    cur=null;
+  }
   function step(d){ var n=P[cur][6].length; at=(at+d+n)%n; show(); }
   document.getElementById('vprev').onclick=function(){ step(-1); };
   document.getElementById('vnext').onclick=function(){ step(1); };
-  document.getElementById('vclose').onclick=function(){ dlg.close(); };
-  dlg.addEventListener('click',function(e){ if(e.target===dlg) dlg.close(); });
-  dlg.addEventListener('keydown',function(e){ if(e.key==='ArrowRight') step(1); if(e.key==='ArrowLeft') step(-1); });
+  document.getElementById('vclose').onclick=close;
+  dlg.addEventListener('keydown',function(e){ if(e.key==='ArrowRight') step(1); if(e.key==='ArrowLeft') step(-1); if(e.key==='Escape') close(); });
+  var rt; addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(function(){ if(!dlg.hidden){ dlg.hidden=true; place(); dlg.hidden=false; } },150); });
   var sx=null;
   vimg.addEventListener('touchstart',function(e){ sx=e.touches[0].clientX; },{passive:true});
   vimg.addEventListener('touchend',function(e){ if(sx===null) return; var dx=e.changedTouches[0].clientX-sx; if(Math.abs(dx)>40) step(dx<0?1:-1); sx=null; });
