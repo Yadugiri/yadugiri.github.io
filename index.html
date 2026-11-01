@@ -75,6 +75,8 @@ h3{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:21px; margin:0
 .timeline li{position:relative; padding:0 0 16px 18px; font-size:14px; color:var(--soft)}
 .timeline li::before{content:""; position:absolute; left:-6px; top:7px; width:10px; height:10px; border-radius:50%; background:var(--card); border:2px solid var(--accent)}
 .timeline b{display:block; color:var(--ink); font-weight:600; font-size:15px}
+.tl-head{margin:0 0 14px; color:var(--soft); font-size:15px}
+.tl-head b{color:var(--ink); font-weight:600}
 .intro{margin:-6px 0 18px; color:var(--soft); max-width:640px}
 .gallery{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px}
 @media (max-width:860px){ .gallery{grid-template-columns:repeat(2,minmax(0,1fr))} }
@@ -260,15 +262,18 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
     <h2 id="about">About</h2>
     <div class="about">
       <div>
-        <p>My day job is designing buildings: homes, schools, hospitals, shopping centres and mixed-use projects in India and the Gulf, from first sketch to construction drawings.</p>
-        <p>That work is full of slow, repetitive steps between an idea and something people can look at. Most of what's on this page started as an attempt to make one of those steps quicker.</p>
-        <p>Bachelor of Architecture, UVCE Bangalore. Outside work, I paint and make music.</p>
+        <p>I've spent more than twelve years taking buildings from a first sketch to a finished site. The work has ranged from a family house and a university canteen in Karnataka to office campuses for thousands of people, and hotels, homes and a public market in the UAE. Along the way I've drawn concepts, built the models, worked alongside engineers, steered drawings through approvals and handed buildings over to the people who use them.</p>
+        <p>The tools on this page grew out of that work. Each one tries to close the gap between an idea and something people can see and respond to, and each follows habits practice taught me: what you draw comes first and the standards advise rather than overrule, nothing gets built until the plan is approved, and everything is explained in plain words.</p>
+        <p>I studied civil engineering, then architecture at UVCE Bangalore. Outside work, I paint and make music.</p>
       </div>
-      <ul class="timeline">
-        <li><b>Architect</b>2018 onwards</li>
-        <li><b>Architect, then Senior Architect</b>2014 to 2018</li>
-        <li><b>Junior Architect, then Architect</b>2013 to 2014</li>
-      </ul>
+      <div>
+        <p class="tl-head"><b>Architect</b> · 2013 to today</p>
+        <ul class="timeline">
+          <li><b>2018 onwards</b>Hotels, homes, offices and a market across the UAE; office campuses in India</li>
+          <li><b>2014 to 2018</b>Apartments, houses, a university canteen and a science centre in Karnataka</li>
+          <li><b>2013 to 2014</b>Offices, and a technical building at a cement plant</li>
+        </ul>
+      </div>
     </div>
   </section>
 
