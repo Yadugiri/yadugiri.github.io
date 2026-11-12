@@ -67,6 +67,8 @@ h3{font-family:Fraunces,Georgia,serif; font-weight:600; font-size:21px; margin:0
 .actions{margin-top:auto; padding-top:18px; display:flex; flex-wrap:wrap; gap:10px; align-items:center}
 .btn{display:inline-block; padding:9px 16px; border-radius:999px; background:var(--ink); color:var(--paper); text-decoration:none; font-size:14px; font-weight:500}
 .btn:hover{background:var(--accent); color:#fff}
+.btn.ghost{background:transparent; color:var(--ink); border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent); color:var(--accent); background:transparent}
 .note{font-size:13px; color:var(--soft)}
 .about{display:grid; grid-template-columns:1.2fr 1fr; gap:28px; align-items:start}
 @media (max-width:720px){ .about{grid-template-columns:1fr} }
@@ -161,13 +163,16 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
           <div class="top"><h3>Prārūpa</h3><span class="status">Live</span></div>
           <p>Photograph a hand-drawn floor plan and get a checked plan back. Once you approve it, you get a full set of concept and technical drawings, a 3D model you can walk around, pictures and a short video.</p>
           <ul>
-            <li>Room sizes checked against the building code, offered as suggestions</li>
-            <li>One question at a time, answered with a tap</li>
+            <li>AI reads your sketch, with any sizes you've written beside the rooms</li>
+            <li>Walls, doors and windows drawn to building standards</li>
+            <li>Change the plan by describing it in plain words</li>
             <li>Approve the plan before anything is built</li>
           </ul>
           <div class="actions">
             <a class="btn" href="https://prarupa.vercel.app" target="_blank" rel="noopener">Open Prārūpa</a>
-            <span class="note">Needs an access link: <a href="#contact">ask me for one</a></span>
+            <a class="btn ghost" href="https://youtu.be/mBqrIHHPRoE" target="_blank" rel="noopener">▶ Watch: sketch to Revit</a>
+            <a class="btn ghost" href="https://prarupa.vercel.app/sample/" target="_blank" rel="noopener">See a finished sample</a>
+            <span class="note">Live demo: open the link I sent you, or <a href="#contact">ask me for one</a></span>
           </div>
         </div>
       </article>
