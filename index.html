@@ -159,7 +159,7 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
   </header>
 
   <section class="section" aria-labelledby="work">
-    <h2 id="work">Projects</h2>
+    <h2 id="work">Tools you can try</h2>
     <div class="grid">
 
       <article class="card">
@@ -221,6 +221,55 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
         </div>
       </article>
 
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="watch">
+    <h2 id="watch">Watch</h2>
+    <div class="video">
+      <a class="player" id="player" href="https://youtu.be/mBqrIHHPRoE" target="_blank" rel="noopener" aria-label="Play the video: Single-line AutoCAD drawing to Revit model with AI">
+        <img src="https://i.ytimg.com/vi/mBqrIHHPRoE/hqdefault.jpg" alt="" loading="lazy">
+        <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+      </a>
+      <div class="vtext">
+        <h3>Single-line AutoCAD drawing to Revit model with AI</h3>
+        <p>Developing a 3D Revit model from a single-line AutoCAD plan, with AI.</p>
+        <a class="btn ghost" href="https://youtu.be/mBqrIHHPRoE" target="_blank" rel="noopener">Open on YouTube</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="arch">
+    <h2 id="arch">
+      <button class="fold" id="archbtn" type="button" aria-expanded="false" aria-controls="archbody">
+        <span>Architecture</span>
+        <span class="fold-meta"><span id="archcount">13 projects</span> <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
+      </button>
+    </h2>
+    <div id="archbody" hidden>
+      <p class="intro">A selection of buildings I've worked on, from concept and renders to construction drawings. Tap any project to see more.</p>
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+
+  <div id="viewer" role="region" aria-label="Project details" hidden>
+    <div class="vbar">
+      <span id="vcap"></span>
+      <button class="vbtn" id="vclose" aria-label="Close">✕</button>
+    </div>
+    <div class="vstage">
+      <button class="vbtn vnav" id="vprev" aria-label="Previous">‹</button>
+      <img id="vimg" alt="">
+      <button class="vbtn vnav" id="vnext" aria-label="Next">›</button>
+    </div>
+    <div class="vcount" id="vcount"></div>
+    <div class="vinfo" id="vinfo"></div>
+  </div>
+
+  <section class="section" aria-labelledby="soon">
+    <h2 id="soon">In progress</h2>
+    <div class="grid">
+
       <article class="card">
         <div class="art" aria-hidden="true">
           <svg viewBox="0 0 400 150" preserveAspectRatio="xMidYMid slice">
@@ -269,48 +318,6 @@ footer{padding:40px 0 56px; color:var(--soft); font-size:13px; border-top:1px so
 
     </div>
   </section>
-
-  <section class="section" aria-labelledby="watch">
-    <h2 id="watch">Watch</h2>
-    <div class="video">
-      <a class="player" id="player" href="https://youtu.be/mBqrIHHPRoE" target="_blank" rel="noopener" aria-label="Play the video: Single-line AutoCAD drawing to Revit model with AI">
-        <img src="https://i.ytimg.com/vi/mBqrIHHPRoE/hqdefault.jpg" alt="" loading="lazy">
-        <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-      </a>
-      <div class="vtext">
-        <h3>Single-line AutoCAD drawing to Revit model with AI</h3>
-        <p>Developing a 3D Revit model from a single-line AutoCAD plan, with AI.</p>
-        <a class="btn ghost" href="https://youtu.be/mBqrIHHPRoE" target="_blank" rel="noopener">Open on YouTube</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="arch">
-    <h2 id="arch">
-      <button class="fold" id="archbtn" type="button" aria-expanded="false" aria-controls="archbody">
-        <span>Architecture</span>
-        <span class="fold-meta"><span id="archcount">13 projects</span> <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
-      </button>
-    </h2>
-    <div id="archbody" hidden>
-      <p class="intro">A selection of buildings I've worked on, from concept and renders to construction drawings. Tap any project to see more.</p>
-      <div class="gallery" id="gallery"></div>
-    </div>
-  </section>
-
-  <div id="viewer" role="region" aria-label="Project details" hidden>
-    <div class="vbar">
-      <span id="vcap"></span>
-      <button class="vbtn" id="vclose" aria-label="Close">✕</button>
-    </div>
-    <div class="vstage">
-      <button class="vbtn vnav" id="vprev" aria-label="Previous">‹</button>
-      <img id="vimg" alt="">
-      <button class="vbtn vnav" id="vnext" aria-label="Next">›</button>
-    </div>
-    <div class="vcount" id="vcount"></div>
-    <div class="vinfo" id="vinfo"></div>
-  </div>
 
   <section class="section" aria-labelledby="about">
     <h2 id="about">About</h2>
